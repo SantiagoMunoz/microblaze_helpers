@@ -1,6 +1,7 @@
 #include "spi.h"
 #include "intc.h"
 #include "xparameters.h"
+#include "xbasic_types.h"
 
 XSpi_Config stSpi_config;
 XSpi stSpi;
@@ -11,13 +12,13 @@ int TransferInProgress;
 XStatus spi_initialize(XSpi *pstSpi)
 {
     XStatus iStatus;
-
-    &stSpi_config = XSpi_LookupConfig(XPAR_AXI_QUAD_SPI_0_DEVICE_ID);
-	if (stSpi_config == NULL) 
+    XSpi_Config *spi_config = NULL ;
+    spi_config = XSpi_LookupConfig(XPAR_AXI_QUAD_SPI_0_DEVICE_ID);
+	if (spi_config == NULL)
 		return XST_FAILURE;
-    
+    stSpi_config = *spi_config;
     iStatus = XSpi_CfgInitialize(pstSpi, &stSpi_config,
-					&stSpi_config>BaseAddress);
+					(&stSpi_config)->BaseAddress);
 	if (iStatus != XST_SUCCESS) {
 		return XST_FAILURE;
 	}

@@ -1,18 +1,18 @@
 #include "timer.h"
 
-int ExpiredCounter;
 XTmrCtr stTimerCounter;
-int counter_cycles;
+int ExpiredCounter;  //Number of overflows since last reset
+int counter_cycles;  //Number of times ExpiredCounter increases before getting driven back to zero
 
 XStatus InitCounter(XTmrCtr *instance, u16 device_id)
 {
-    XStatus status;
+    XStatus iStatus;
 
-    status = XTmrCtr_Initialize(instance, device_id);
-    if(status != XST_SUCCESS)
+    iStatus = XTmrCtr_Initialize(instance, device_id);
+    if(iStatus != XST_SUCCESS)
         return XST_FAILURE;
-    status = XTmrCtr_SelfTest(instance, TIMER_0);
-    if(status != XST_SUCCESS)
+    iStatus = XTmrCtr_SelfTest(instance, TIMER_0);
+    if(iStatus != XST_SUCCESS)
         return XST_FAILURE;
     
     //Default timer expire counter before reset
@@ -23,35 +23,33 @@ XStatus InitCounter(XTmrCtr *instance, u16 device_id)
 
 void ConfigCounter(XTmrCtr *instance, XTmrCtr_Handler FuncPtr)
 {
-    XStatus status;
     //Set callback
     XTmrCtr_SetHandler(instance, FuncPtr, instance);
     //
-    XTmrCtrl_SetOptions(instance, TIMER_0, XTC_INT_MODE_OPTION |       XTC_AUTO_RELOAD_OPTION);
+    XTmrCtr_SetOptions(instance, TIMER_0, XTC_INT_MODE_OPTION | XTC_AUTO_RELOAD_OPTION | XTC_DOWN_COUNT_OPTION);
 
 }
 
-void SetTimerValue(XTmr *instance, int value)
+void SetTimerValue(XTmrCtr *instance, int value)
 {
-    XTmrCtr_setResetValue(instamce, TIMER_0, value);
+    XTmrCtr_SetResetValue(instance, TIMER_0, value);
 }
 
-void timer_start(Xtmr *instance)
+void timer_start(XTmrCtr *instance)
 {
     XTmrCtr_Start(instance, TIMER_0);
 }
 
-void timer_stop(XTmr *instance)
+void timer_stop(XTmrCtr *instance)
 {
     XTmrCtr_Stop(instance, TIMER_0);
 }
-
 
 void wait_for_timer_overflow()
 {
     int stored_expired_count = ExpiredCounter;
     int current_count;
-    while(true)
+    while(1)
     {
         current_count = ExpiredCounter;
         if(current_count < stored_expired_count)
@@ -63,7 +61,7 @@ void wait_for_timer_overflow()
    
 void timer_callback(void *CallbackRef, u8 TmrCtrNumber)
 {
-    XTmrCtr *instance = (XTrmCtr *)CallbackRef;
+    XTmrCtr *instance = (XTmrCtr *)CallbackRef;
 
     if(XTmrCtr_IsExpired(instance, TmrCtrNumber))
     {

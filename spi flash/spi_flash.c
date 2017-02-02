@@ -1,6 +1,7 @@
+#include "string.h"
 #include "spi_flash.h"
 #include "spi.h"
-#include "uart.h"
+#include "s_uart.h"
 
 //Locally used defines
 
@@ -18,7 +19,7 @@ XStatus spiSetupFlash(XSpi *SpiPtr)
     return XST_SUCCESS;
 }
 
-XStatus FlashWrite(XSpi *SpiPtr, u32 Address, uint8_t *data, u32 size)
+XStatus FlashWrite(XSpi *SpiPtr, u32 Address, u8 *data, u32 size)
 {
     XStatus iStatus;
     u8 WriteEnableCmd = { WRITE_ENABLE_CMD };

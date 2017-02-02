@@ -1,6 +1,16 @@
 #include "bram.h"
 
-XBram stBram;
+XBram stBram_ADC0CH0;
+XBram_Config stBram_config_ADC0CH0;
+
+XBram stBram_ADC0CH1;
+XBram_Config stBram_config_ADC0CH1;
+
+XBram stBram_ADC1CH0;
+XBram_Config stBram_config_ADC1CH0;
+
+XBram stBram_ADC1CH1;
+XBram_Config stBram_config_ADC1CH1;
 
 
 XStatus bram_init(XBram *pstBram, XBram_Config *ConfigPtr, u16 device_id)

@@ -5,16 +5,16 @@
 #include "xbram.h"
 
 extern XBram stBram_ADC0CH0;
-extern XBram_Config *stBram_config_ADC0CH0;
+extern XBram_Config stBram_config_ADC0CH0;
 
 extern XBram stBram_ADC0CH1;
-extern XBram_Config *stBram_config_ADC0CH1;
+extern XBram_Config stBram_config_ADC0CH1;
 
 extern XBram stBram_ADC1CH0;
-extern XBram_Config *stBram_config_ADC1CH0;
+extern XBram_Config stBram_config_ADC1CH0;
 
 extern XBram stBram_ADC1CH1;
-extern XBram_Config *stBram_config_ADC1CH1;
+extern XBram_Config stBram_config_ADC1CH1;
 
 XStatus bram_init(XBram *pstBram, XBram_Config *ConfigPtr, u16 device_id);
 

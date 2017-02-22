@@ -33,10 +33,12 @@ XStatus spi_config(XSpi *pstSpi)
     XSpi_SetStatusHandler(pstSpi, pstSpi,
 				 (XSpi_StatusHandler) SpiHandler);
 
-    iStatus = XSpi_SetOptions(pstSpi, XSP_MANUAL_SSELECT_OPTION | XSP_MASTER_OPTION | XSP_CLK_PHASE_1_OPTION | XSP_CLK_ACTIVE_LOW_OPTION);
-
+    iStatus = XSpi_SetOptions(pstSpi, XSP_MANUAL_SSELECT_OPTION | XSP_MASTER_OPTION );
+    // | XSP_CLK_PHASE_1_OPTION | XSP_CLK_ACTIVE_LOW_OPTION);
     if(iStatus != XST_SUCCESS)
         return XST_FAILURE;
+
+    XSpi_Start(pstSpi);
 
     return XST_SUCCESS;
 }

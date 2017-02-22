@@ -29,7 +29,7 @@
 #define S25FL_READ_ID_BYTES           4 /* Read ID bytes count */
 #define ID_CODE                       0x00010220
 
-#define MAX_DATA                      32
+#define MAX_DATA                      256
 #define FLASH_SPI_SELECT              0x01
 
 extern u8 WriteBuffer[MAX_DATA + DATA_OFFSET];
@@ -37,6 +37,8 @@ extern u8 ReadBuffer[MAX_DATA + DATA_OFFSET];
 
 XStatus spiSetupFlash(XSpi *SpiPtr);
 XStatus FlashWrite(XSpi *SpiPtr, u32 Address, u8 *data, u32 size);
-XStatus FlashRead(XSpi *SpiPtr, u32 Address, u8 *data, u8 size);
+XStatus FlashRead(XSpi *SpiPtr, u32 Address, u8 *data, u32 size);
+u16 spiFlashGetIDRegister(XSpi *FlashSpiPtr, u32 *regPtr);
+XStatus TestInstruction(XSpi *SpiPtr);
 
 #endif

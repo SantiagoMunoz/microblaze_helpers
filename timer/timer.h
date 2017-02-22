@@ -37,4 +37,8 @@ void wait_for_timer_overflow();
 //Function that manager the timer increment increment each time the timer expired
 void timer_callback(void *CallbackRef, u8 TmrCtrNumber);
 
+void timerdelay(int no250MsSegments);
+void fiftymstimerdelay();
+
+
 #endif

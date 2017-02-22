@@ -11,7 +11,7 @@
 
 extern XUartLite stUart;
 
-extern u8 aucUartRxBuffer[32];
+extern u8 aucUartRxBuffer[128];
 extern u8 usUartRxBufferIndex;
 
 XStatus UartInit(XUartLite *pstUart, u16 Uart_ID);
@@ -24,7 +24,7 @@ void UartTxIsr(void *CallBackRef, u16 usEventData);
 
 void UartWait4Rx(void);
 
-XStatus UartSend(u8 *text);
+XStatus UartSend(char *text);
 void UartPrint(char *format,...);
 
 #endif

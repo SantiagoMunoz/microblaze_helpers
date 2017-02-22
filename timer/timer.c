@@ -71,3 +71,28 @@ void timer_callback(void *CallbackRef, u8 TmrCtrNumber)
     }
 
 }
+
+void timerdelay(int no250MsSegments){
+
+    SetTimerValue(&stTimerCounter, 0xBEBC20);
+    counter_cycles = no250MsSegments;
+    timer_start(&stTimerCounter);
+    wait_for_timer_overflow();
+    timer_stop(&stTimerCounter);
+    
+    return;
+}
+
+void fiftymstimerdelay(){
+
+    //SetTimerValue(&stTimerCounter, 0x4C4B40);
+    //counter_cycles = 5;
+	SetTimerValue(&stTimerCounter, 0x1388);
+	counter_cycles = 4;
+    timer_start(&stTimerCounter);
+    wait_for_timer_overflow();
+    timer_stop(&stTimerCounter);
+    
+    return;
+}
+

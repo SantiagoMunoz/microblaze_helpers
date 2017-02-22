@@ -1,25 +1,19 @@
 #include "bram.h"
 
-XBram stBram_ADC0CH0;
-XBram_Config stBram_config_ADC0CH0;
 
-XBram stBram_ADC0CH1;
-XBram_Config stBram_config_ADC0CH1;
-
-XBram stBram_ADC1CH0;
-XBram_Config stBram_config_ADC1CH0;
-
-XBram stBram_ADC1CH1;
-XBram_Config stBram_config_ADC1CH1;
-
+XBram stBram_FreqCounter;
+XBram_Config stBram_config_FreqCounter;
 
 XStatus bram_init(XBram *pstBram, XBram_Config *ConfigPtr, u16 device_id)
 {
-    XStatus iStatus;
+	XBram_Config *temp_ptr;
+	XStatus iStatus;
 
-    ConfigPtr = XBram_LookupConfig(device_id);
-    if(ConfigPtr == NULL)
+    temp_ptr = XBram_LookupConfig(device_id);
+    if(temp_ptr == NULL)
         return XST_FAILURE;
+
+    *ConfigPtr = *temp_ptr;
 
     iStatus = XBram_CfgInitialize(pstBram, ConfigPtr, ConfigPtr->CtrlBaseAddress);
     if(iStatus != XST_SUCCESS)
@@ -48,7 +42,8 @@ void InitializeEcc(XBram_Config *ConfigPtr, u32 EffectiveAddr)
     if (ConfigPtr->EccPresent &&
         ConfigPtr->EccOnOffRegister &&
         ConfigPtr->EccOnOffResetValue == 0 &&
-        ConfigPtr->WriteAccess != 0) {
+        ConfigPtr->WriteAccess != 0) 
+    {
         for (Addr = ConfigPtr->MemBaseAddress;
              Addr < ConfigPtr->MemHighAddress; Addr+=4) {
             Data = XBram_In32(Addr);

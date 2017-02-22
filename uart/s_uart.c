@@ -84,12 +84,12 @@ XStatus UartSend(char *text)
 
 void UartPrint(char *format,...)
 {
-	char buffer[100];
+    char buffer[100];
+    
+    va_list args;
+    va_start(args, format);
+    vsprintf(buffer, format, args);
 
-	  va_list args;
-	  va_start(args, format);
-	  vsprintf(buffer, format, args);
-
-	  UartSend(buffer);
-	  va_end(args);
+    UartSend((u8*)buffer);
+    va_end(args);
 }
